@@ -4,7 +4,7 @@ package com.kk.pay.entity;
  * Created by kangxuan
  * on 2018/9/14 22:10.
  *
- * @Description: 用户封装返回信息
+ * @Description: 封装返回信息
  */
 public class RetMessage {
     /**

@@ -9,6 +9,8 @@ import com.kk.pay.entity.PayUserEntity;
 import com.kk.pay.entity.RedirectCustomeEntity;
 import com.kk.pay.entity.RetMessage;
 import com.kk.pay.service.UserService;
+import com.kk.pay.task.CustomerRedirectTask;
+import com.kk.pay.util.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,11 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
  * @Description: 处理用户相关逻辑
  */
 @Service
-public class UserServiceBasic implements UserService {
+public class BasicUserService implements UserService {
     @Autowired
     private PayUserDao payUserDao;
     @Autowired
     private OrderDao orderDao;
+    @Autowired
+    private BasicUserService basicUserService;
 
     /**
      * 登录
@@ -65,7 +69,11 @@ public class UserServiceBasic implements UserService {
          *
          * 还有一种就是在数据库写存储过程，让这些操作在一次 数据库交互 中完成
          */
+        if (null == entity){
+            return new RetMessage(0, MessageConstant.ORDER_PAYFAIL);
+        }
 
+        LogUtil.logger.info(String.format("pay : orderId==%s , uid==$s ",orderId,entity.getUid()));
         // 查询该订单信息
         OrderInfoEntity orderInfoEntity = orderDao.selectOrderInfoByOrderId(orderId);
         if (orderInfoEntity == null) {
@@ -87,15 +95,20 @@ public class UserServiceBasic implements UserService {
         if (state == KeyConstant.PAY_NOTPAY){
             // 处理订单
             try {
-                RetMessage handle = handle(entity, orderInfoEntity);
+                /**
+                 * 此处若直接调用handle 方法，handle方法上的事务注解不会生效，需要使用spring的代理类来执行
+                 * 具体原因：https://blog.csdn.net/zaige66/article/details/81674845
+                 */
+                RetMessage handle = basicUserService.handle(entity, orderInfoEntity);
                 if (handle.getState() == KeyConstant.STATE_200){
                     // 加入回调商户队列
                     RedirectCustomeEntity redirectCustomeEntity = new RedirectCustomeEntity(orderInfoEntity.getKeyid(),
                             orderInfoEntity.getCustomer().getRedirectUrl(),
                             orderInfoEntity.getCustomerOrderId(), 1);
 
-
+                    CustomerRedirectTask.addTask(redirectCustomeEntity);
                 }
+                return handle;
             } catch (Exception e) {
                 e.printStackTrace();
                 return new RetMessage(0,e.getMessage());
@@ -111,7 +124,7 @@ public class UserServiceBasic implements UserService {
      * @return
      */
     @Transactional
-    private RetMessage handle(PayUserEntity entity,OrderInfoEntity orderInfoEntity) throws Exception {
+    public RetMessage handle(PayUserEntity entity,OrderInfoEntity orderInfoEntity){
         // 减少玩家余额
         entity.setMoney(orderInfoEntity.getMoney());
         int i = payUserDao.updateUserMoney(entity);
@@ -120,13 +133,13 @@ public class UserServiceBasic implements UserService {
             return new RetMessage(0,MessageConstant.ORDER_PAYFAIL);
         }
 
-        // 修改订单状态
-        int retNum = orderDao.updatestateByKeyid(orderInfoEntity.getKeyid(), 1, 0);
+        // 修改订单状态为已支付
+        int retNum = orderDao.updateOrderToIsPay(orderInfoEntity.getKeyid(), entity.getUid());
         if (retNum < 1){
-            throw new Exception(MessageConstant.ORDER_PAYFAIL);
+            throw new RuntimeException(MessageConstant.ORDER_PAYFAIL);
         }
 
         // 支付成功
-        return new RetMessage(200,MessageConstant.ORDER_SUCCESS);
+        return new RetMessage(KeyConstant.STATE_200,MessageConstant.ORDER_SUCCESS);
     }
 }

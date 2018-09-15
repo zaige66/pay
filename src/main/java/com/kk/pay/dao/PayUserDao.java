@@ -2,6 +2,7 @@ package com.kk.pay.dao;
 
 import com.kk.pay.entity.PayUserEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
@@ -24,6 +25,6 @@ public interface PayUserDao {
     /**
      * 更新用户余额
      */
-    @Update("update pay_user set money = money - #{money} where uid = #{uid} and (money - #{money}) >= 0")
-    int updateUserMoney(PayUserEntity entity);
+    @Update("update pay_user set money = money - #{user.money} where uid = #{user.uid} and (money - #{user.money}) >= 0")
+    int updateUserMoney(@Param("user") PayUserEntity entity);
 }

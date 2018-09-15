@@ -9,7 +9,7 @@ package com.kk.pay.entity;
 public class CustomerEntity {
     private int customerId;
     private String customerName;
-    private String primaryKey;
+    private String privateKey;
     private String redirectUrl;
 
     public String getRedirectUrl() {
@@ -36,12 +36,12 @@ public class CustomerEntity {
         this.customerName = customerName;
     }
 
-    public String getPrimaryKey() {
-        return primaryKey;
+    public String getPrivateKey() {
+        return privateKey;
     }
 
-    public void setPrimaryKey(String primaryKey) {
-        this.primaryKey = primaryKey;
+    public void setPrivateKey(String privateKey) {
+        this.privateKey = privateKey;
     }
 
     @Override
@@ -49,7 +49,8 @@ public class CustomerEntity {
         return "CustomerEntity{" +
                 "customerId=" + customerId +
                 ", customerName='" + customerName + '\'' +
-                ", primaryKey='" + primaryKey + '\'' +
+                ", privateKey='" + privateKey + '\'' +
+                ", redirectUrl='" + redirectUrl + '\'' +
                 '}';
     }
 }

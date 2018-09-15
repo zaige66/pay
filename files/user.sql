@@ -40,7 +40,7 @@ USE pay;
 CREATE TABLE customer (
   customerId int(12) NOT NULL COMMENT '商户id',
   customerName VARCHAR(50) NOT NULL COMMENT '商户名称',
-  primaryKey VARCHAR(50) NOT NULL COMMENT '商户的凭证key',
+  privateKey VARCHAR(50) NOT NULL COMMENT '商户的凭证key',
   redirectUrl VARCHAR(100) NOT NULL COMMENT '商户回调地址',
 
   PRIMARY KEY (customerId)
