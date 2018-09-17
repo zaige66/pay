@@ -1,10 +1,7 @@
 package com.kk.pay.dao;
 
 import com.kk.pay.entity.OrderInfoEntity;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -40,9 +37,18 @@ public interface OrderDao {
     /**
      * 修改订单状态为已支付
      * @param keyid
-     * @param uidM
+     * @param uid
      * @return
      */
-    @Update("update order_record  set state = 1 ,uid = #{uid} where keyid = keyid and state = 0")
-    int updateOrderToIsPay(@Param("keyid") int keyid,@Param("uid") int uid);
+    @Update("update order_record  set state = 1 ,uid = #{uid},payTime = #{payTime} where keyid = keyid and state = 0")
+    int updateOrderToIsPay(@Param("keyid") int keyid,@Param("uid") int uid,@Param("payTime")String payTime);
+
+    /**
+     * 插入订单记录
+     * @param entity
+     * @return
+     */
+    @Insert("insert into order_record (orderId,customer.customerId,customerOrderId,money,createDate) " +
+            "values (#{orderId},#{customerId},#{customerOrderId},#{money},#{createDate})")
+    int insertOrder(OrderInfoEntity entity);
 }

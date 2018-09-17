@@ -14,4 +14,7 @@ import org.slf4j.LoggerFactory;
 public class LogUtil {
     public static Logger logger = LoggerFactory.getLogger(PayApplication.class);
 
+    public static void print(Object object){
+        logger.info(object.toString());
+    }
 }

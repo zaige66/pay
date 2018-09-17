@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by kangxuan
  * on 2018/9/14 22:12.
@@ -134,7 +137,8 @@ public class BasicUserService implements UserService {
         }
 
         // 修改订单状态为已支付
-        int retNum = orderDao.updateOrderToIsPay(orderInfoEntity.getKeyid(), entity.getUid());
+        String payTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        int retNum = orderDao.updateOrderToIsPay(orderInfoEntity.getKeyid(), entity.getUid(),payTime);
         if (retNum < 1){
             throw new RuntimeException(MessageConstant.ORDER_PAYFAIL);
         }

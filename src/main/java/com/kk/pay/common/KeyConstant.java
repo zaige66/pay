@@ -27,4 +27,7 @@ public class KeyConstant {
     // 商户返回字段
     public static final String CUSTOMER_RET_SUCCESS = "SUCCESS";
     public static final String CUSTOMER_RET_ERROR = "ERROR";
+
+    // 日期
+    public static final String YEAR_MONTH_DAY_HOUR_MIN_SEC = "yyyy-MM-dd HH:mm:ss";
 }

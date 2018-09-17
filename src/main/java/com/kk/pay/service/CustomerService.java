@@ -1,8 +1,8 @@
 package com.kk.pay.service;
 
 import com.kk.pay.entity.CustomerEntity;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import com.kk.pay.entity.OrderInfoEntity;
+import com.kk.pay.entity.RetMessage;
 
 /**
  * @author kangxuan
@@ -11,12 +11,9 @@ import org.apache.ibatis.annotations.Select;
  */
 public interface CustomerService {
     /**
-     * 根据商户id与私有key 查询商户信息
-     * @param cusId
-     * @param privateKey
+     * 添加订单
+     * @param entity
      * @return
      */
-    @Select("select * from  customer where customerId = #{customerId} and privateKey = #{privateKey}")
-    CustomerEntity selectCustomerWithIdandPrivateKey(@Param("customerId")int cusId,@Param("privateKey") String privateKey);
-
+    RetMessage addRecord(CustomerEntity entity,Double money,String customerOrderId);
 }

@@ -9,6 +9,8 @@ import com.kk.pay.util.LogUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,6 +29,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 登陆
+     * @param entity
+     * @param request
+     * @return
+     */
     @PostMapping("login")
     @ResponseBody
     public RetMessage login(PayUserEntity entity, HttpServletRequest request){
@@ -42,6 +50,23 @@ public class UserController {
         }
     }
 
+    /**
+     * 查询订单信息
+     * @return
+     */
+    @GetMapping("pay")
+    @ResponseBody
+    public RetMessage payInfo(String orderId,HttpServletRequest request){
+        // TODO
+        return null;
+    }
+
+    /**
+     * 付款
+     * @param orderId
+     * @param request
+     * @return
+     */
     @PostMapping("pay")
     @ResponseBody
     public RetMessage pay(String orderId,HttpServletRequest request){
