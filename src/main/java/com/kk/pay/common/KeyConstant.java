@@ -30,4 +30,9 @@ public class KeyConstant {
 
     // 日期
     public static final String YEAR_MONTH_DAY_HOUR_MIN_SEC = "yyyy-MM-dd HH:mm:ss";
+
+    // 模拟商户逻辑
+    public static final String CUSTOMER_USER = "customer_user";
+    public static final String CUSTOMER_USERNAME = "test";
+    public static final String CUSTOMER_PASSWORD = "123";
 }

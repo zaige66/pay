@@ -15,7 +15,7 @@ import java.util.concurrent.BlockingQueue;
  * Created by kangxuan
  * on 2018/9/15 8:21.
  *
- * @Description:
+ * @Description: 处理 用户 支付完订单后回调商家接口
  */
 public class CustomerRedirectTask implements Runnable{
     private OrderDao orderDao;

@@ -17,4 +17,8 @@ public class LogUtil {
     public static void print(Object object){
         logger.info(object.toString());
     }
+
+    public static void error(Object object){
+        logger.error(object.toString());
+    }
 }
