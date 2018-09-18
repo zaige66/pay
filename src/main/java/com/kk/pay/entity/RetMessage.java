@@ -21,6 +21,9 @@ public class RetMessage {
      */
     private Object data;
 
+    public RetMessage() {
+    }
+
     public RetMessage(int state, String message) {
         this.state = state;
         this.message = message;

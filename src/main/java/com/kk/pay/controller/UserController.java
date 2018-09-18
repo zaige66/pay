@@ -73,6 +73,10 @@ public class UserController {
         // 获取当前用户
         PayUserEntity payUserEntity = (PayUserEntity) request.getSession().getAttribute(KeyConstant.USER);
 
+        if (payUserEntity == null) {
+            return new RetMessage(0,MessageConstant.LOGIN_NO);
+        }
+
         PayUserEntity copy = new PayUserEntity();
         BeanUtils.copyProperties(payUserEntity,copy);
         RetMessage pay = userService.pay(copy, orderId);

@@ -133,7 +133,7 @@ public class BasicUserService implements UserService {
         int i = payUserDao.updateUserMoney(entity);
 
         if (i < 1){
-            return new RetMessage(0,MessageConstant.ORDER_PAYFAIL);
+            return new RetMessage(0,MessageConstant.MONEY_NOT_ENOUGH);
         }
 
         // 修改订单状态为已支付

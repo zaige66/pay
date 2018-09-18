@@ -8,14 +8,14 @@ package com.kk.pay.simulate.entity;
 public class CustomerOrder {
     private String createTime;
     private String payTime;
-    private String productName;
+    private Product product;
     private String orderId;
     private int num;
     private int state;
 
-    public CustomerOrder(String createTime, String productName, String orderId, int num) {
+    public CustomerOrder(String createTime, Product productName, String orderId, int num) {
         this.createTime = createTime;
-        this.productName = productName;
+        this.product = productName;
         this.orderId = orderId;
         this.num = num;
     }
@@ -44,12 +44,12 @@ public class CustomerOrder {
         this.payTime = payTime;
     }
 
-    public String getProductName() {
-        return productName;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public int getNum() {

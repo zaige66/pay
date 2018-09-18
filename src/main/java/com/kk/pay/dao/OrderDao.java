@@ -31,7 +31,7 @@ public interface OrderDao {
      * @param oldState 原状态
      * @return
      */
-    @Update("update order_record set state = #{state} where keyid = keyid and state = #{oldState}")
+    @Update("update order_record set state = #{newState} where keyid = #{keyid} and state = #{oldState}")
     int updateStateByKeyid(@Param("keyid") int keyid, @Param("newState")int newState, @Param("oldState")int oldState);
 
     /**
@@ -40,7 +40,7 @@ public interface OrderDao {
      * @param uid
      * @return
      */
-    @Update("update order_record  set state = 1 ,uid = #{uid},payTime = #{payTime} where keyid = keyid and state = 0")
+    @Update("update order_record  set state = 1 ,uid = #{uid},payTime = #{payTime} where keyid = #{keyid} and state = 0")
     int updateOrderToIsPay(@Param("keyid") int keyid,@Param("uid") int uid,@Param("payTime")String payTime);
 
     /**
@@ -48,7 +48,7 @@ public interface OrderDao {
      * @param entity
      * @return
      */
-    @Insert("insert into order_record (orderId,customer.customerId,customerOrderId,money,createDate) " +
-            "values (#{orderId},#{customerId},#{customerOrderId},#{money},#{createDate})")
+    @Insert("insert into order_record (orderId,customerId,customerOrderId,money,createDate) " +
+            "values (#{orderId},#{customer.customerId},#{customerOrderId},#{money},#{createDate})")
     int insertOrder(OrderInfoEntity entity);
 }

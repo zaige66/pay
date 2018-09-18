@@ -10,6 +10,7 @@ package com.kk.pay.common;
 public class MessageConstant {
     public static final String LOGIN_ERROR = "登录失败";
     public static final String LOGIN_SUCCESS = "登录成功";
+    public static final String LOGIN_NO = "用户未登陆";
 
     public static final String ERROR_UNKNOWN = "未知错误";
 
@@ -17,8 +18,10 @@ public class MessageConstant {
     public static final String ORDER_MISS = "该订单不存在";
     public static final String ORDER_ISPAY = "该订单已支付";
     public static final String ORDER_ISFAIL = "该订单已失效";
+    public static final String MONEY_NOT_ENOUGH = "用户余额不足";
     public static final String ORDER_PAYFAIL = "支付失败";
     public static final String ORDER_SUCCESS = "支付成功";
+
 
     // 添加订单
     public static final String  PARAM_ERROR = "参数错误";

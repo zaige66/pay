@@ -24,7 +24,7 @@ public class PayApplication extends WebApplicationObjectSupport {
 		ConfigurableApplicationContext run = SpringApplication.run(PayApplication.class, args);
 
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

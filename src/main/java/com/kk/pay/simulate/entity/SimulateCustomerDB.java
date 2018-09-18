@@ -45,8 +45,23 @@ public class SimulateCustomerDB {
         return null;
     }
 
+    /**
+     * 添加订单
+     * @param order
+     */
     public static void addOrder(CustomerOrder order){
         orders.add(order);
     }
 
+    /**
+     * 根据订单号获取订单信息
+     */
+    public static CustomerOrder getOrder(String orderId){
+        for (CustomerOrder order : orders) {
+            if (order.getOrderId().equals(orderId)){
+                return order;
+            }
+        }
+        return null;
+    }
 }

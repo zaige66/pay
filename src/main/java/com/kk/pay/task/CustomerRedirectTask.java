@@ -45,10 +45,10 @@ public class CustomerRedirectTask implements Runnable{
             try {
                 RedirectCustomeEntity take = tasks.take();
 
-                take = null;
+                /*take = null;
                 if (take == null){
                     continue;
-                }
+                }*/
                 // 处理任务
                 Map<String,Object> param = new HashMap<>();
                 param.put(KeyConstant.ORDERID,take.getCustomerOrderId());
