@@ -7,17 +7,13 @@ import com.kk.pay.dao.OrderDao;
 import com.kk.pay.entity.CustomerEntity;
 import com.kk.pay.entity.OrderInfoEntity;
 import com.kk.pay.entity.RetMessage;
-import com.kk.pay.service.CustomerService;
 import com.kk.pay.util.LogUtil;
-import com.kk.pay.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author kangxuan
@@ -25,7 +21,7 @@ import java.util.Map;
  * @description
  */
 @Service
-public class BasicCustomeService implements CustomerService {
+public class BasicCustomeService {
     @Value("${user_pay_url}")
     private String user_pay_url;
     @Autowired
@@ -33,12 +29,11 @@ public class BasicCustomeService implements CustomerService {
     @Autowired
     private OrderDao orderDao;
     /**
-     * 添加订单
+     * 添加订单信息到数据库
      * @param entity
      * @return
      */
-    @Override
-    public RetMessage addRecord(CustomerEntity entity,Double money,String customerOrderId) {
+    public RetMessage addRecord(CustomerEntity entity,Double money,String customerOrderId,String orderId) {
         if (entity == null || "".equals(customerOrderId)) {
             return new RetMessage(0, MessageConstant.PARAM_ERROR);
         }
@@ -56,7 +51,6 @@ public class BasicCustomeService implements CustomerService {
         OrderInfoEntity order = new OrderInfoEntity();
         order.setMoney(money);
         order.setCreateDate(new SimpleDateFormat(KeyConstant.YEAR_MONTH_DAY_HOUR_MIN_SEC).format(new Date()));
-        String orderId = StringUtil.getOrderId();
         order.setOrderId(orderId);
         order.setCustomerOrderId(customerOrderId);
         order.setCustomer(entity);
@@ -68,12 +62,17 @@ public class BasicCustomeService implements CustomerService {
         if (i < 1){
             return new RetMessage(0,MessageConstant.ADD_ORDER_ERROR);
         }
+        return new RetMessage(200,MessageConstant.ADD_ORDER_SUCCESS);
+    }
+
+    /**
+     * 生成支付地址
+     * @param orderId
+     * @return
+     */
+    public String getReturnURL(String orderId){
         // 生成支付地址
         String url = user_pay_url + "?orderId=" + orderId;
-        Map<String,Object> retMap = new HashMap<>(16);
-        retMap.put("url",url);
-        RetMessage retMessage = new RetMessage(200, MessageConstant.ADD_ORDER_SUCCESS, retMap);
-        LogUtil.print("[customer_add_pay ret]:" + retMessage);
-        return retMessage;
+        return url;
     }
 }

@@ -1,14 +1,14 @@
 package com.kk.pay;
 
 import com.kk.pay.dao.OrderDao;
+import com.kk.pay.service.impl.BasicCustomeService;
+import com.kk.pay.task.CustomerAddOrderTask;
 import com.kk.pay.task.CustomerRedirectTask;
 import com.kk.pay.util.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.web.context.ContextLoader;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationObjectSupport;
 
 /**
@@ -28,9 +28,12 @@ public class PayApplication extends WebApplicationObjectSupport {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		// 启动线程
+		// 启动任务线程
 		CustomerRedirectTask customerRedirectTask = new CustomerRedirectTask(run.getBean(OrderDao.class));
 		new Thread(customerRedirectTask).start();
+		CustomerAddOrderTask customerAddOrderTask = new CustomerAddOrderTask(run.getBean(BasicCustomeService.class));
+		new Thread(customerAddOrderTask).start();
+
 
 		LogUtil.logger.info("服务启动成功");
 	}

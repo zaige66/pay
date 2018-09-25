@@ -71,6 +71,10 @@ public class BasicUserService implements UserService {
          * 但是如果要做成微服务，就得考虑分布式锁
          *
          * 还有一种就是在数据库写存储过程，让这些操作在一次 数据库交互 中完成
+         * ========================================================
+         * 2018-9-25 08:20:05
+         *      该方法的并发处理 通过在扣款与更改订单状态上加上事物控制即可。
+         *      在高并发时，即使前面获取订单信息脏读了，只要保证扣款与更改订单状态这里成功同时成功就可以了
          */
         if (null == entity){
             return new RetMessage(0, MessageConstant.ORDER_PAYFAIL);
